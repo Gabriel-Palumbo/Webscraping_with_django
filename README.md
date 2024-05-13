@@ -1,35 +1,32 @@
 # request_django
 
-Plan d'Action
+## Plan d'Action
 
-# Configuration d'un nouveau projet Django
-# Introduction à la bibliothèque requests de Python
-# Utilisation de l'API OpenWeatherMap
-# Affichage des données météorologiques
-# Introduction au Webscraping
-# Utilisation de Beautiful Soup
-# Exploration du contenu extrait
-# Affichage des actualités
+- Configuration d'un nouveau projet Django
+- Introduction à la bibliothèque requests de Python
+- Utilisation de l'API OpenWeatherMap
+- Affichage des données météorologiques
+- Introduction au Webscraping
+- Utilisation de Beautiful Soup
+- Exploration du contenu extrait
+- Affichage des actualités
 
-1. Configuration d'un nouveau projet Django
+### Configuration d'un nouveau projet Django
 
 Commençons par créer une nouvelle application Django pour ce projet. Depuis le terminal, nous pouvons le faire en utilisant l'une des commandes suivantes :
 
-bash
 
-django-admin startproject homepage
+`django-admin startproject homepage`
 
 ou
 
-bash
-
-python3 -m django startproject homepage
+`python3 -m django startproject homepage`
 
 Cela créera notre projet intitulé 'homepage'. Ensuite, accédez au dossier homepage et créez notre application main_app :
 
 bash
 
-python manage.py startapp main_app
+`python manage.py startapp main_app`
 
 Maintenant, lançons notre serveur et accédons à localhost:8000 pour nous assurer que tout fonctionne !
 2. Introduction à la bibliothèque requests de Python
@@ -38,27 +35,22 @@ Python est livré avec une bibliothèque fantastique appelée 'requests' que nou
 
 python
 
-# Tout d'abord, importons la bibliothèque
->>> import requests
-# Commençons par quelque chose de simple
->>> requests.get('https://spacejam.com/1996')
-<Response [200]>
-
-Nous avons une réponse ! Que signifie le code HTTP 200 ? S'il vous plaît, dites-moi que mon précieux spacejam.com est toujours en ligne.
+### Tout d'abord, importons la bibliothèque
+`import requests`
+### Commençons par quelque chose de simple
+`requests.get('https://spacejam.com/1996')`
+>>><Response [200]>
 
 Une autre façon d'obtenir le code de réponse est d'ajouter .status_code à la fin de notre requête get. Mais que faire si nous voulons récupérer des données ? Utilisons l'API de test préférée de tout le monde, JSON Placeholder. Nous allons accéder à l'endpoint pour recevoir le premier Todo.
 
-python
-
->>> requests.get('https://jsonplaceholder.typicode.com/todos/1').status_code
-200
-# Tout va bien ! Examinons de plus près les données de la réponse
->>> requests.get('https://jsonplaceholder.typicode.com/todos/1').text
-'{\n  "userId": 1,\n  "id": 1,\n  "title": "delectus aut autem",\n  "completed": false\n}'
-# Hmmmm. Ça n'a pas l'air tout à fait correct. Ce serait bien d'obtenir du JSON 
-# retourné plutôt qu'une chaîne de caractères
->>> requests.get('https://jsonplaceholder.typicode.com/todos/1').json()
-{'userId': 1, 'id': 1, 'title': 'delectus aut autem', 'completed': False}
+`requests.get('https://jsonplaceholder.typicode.com/todos/1').status_code`
+>>>200
+### Examinons de plus près les données de la réponse
+`requests.get('https://jsonplaceholder.typicode.com/todos/1').text`
+>>>'{\n  "userId": 1,\n  "id": 1,\n  "title": "delectus aut autem",\n  "completed": false\n}'
+### Ça n'a pas l'air tout à fait correct. Ce serait bien d'obtenir du JSON, retourné plutôt qu'une chaîne de caractères
+`requests.get('https://jsonplaceholder.typicode.com/todos/1').json()`
+>>> {'userId': 1, 'id': 1, 'title': 'delectus aut autem', 'completed': False}
 
 Magnifique ! Nous pouvons maintenant accéder à une API, et avoir nos données retournées dans un format agréable et facile à utiliser ! Nous pouvons même continuer à enchainer cette requête (comme le permet Python) et essayer d'obtenir des valeurs plus spécifiques !
 Exercices sur la librairie requests de Django
