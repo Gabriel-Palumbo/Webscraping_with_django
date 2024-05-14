@@ -75,13 +75,14 @@ Voici le Webscraping, une manière de, comme son nom l'indique, fouiller un site
 
 Là seule façon dont nous avons accès est dans une seule chaîne de caractères géante.
 
-### 4. Beautiful Soup
+### 4. Beautiful Soup et Regex
 
-Beautiful Soup est l'outil privilégié pour le Webscraping avec Python. En fait, c'est l'outil privilégié pour le Webscraping en général. C'est une bibliothèque très puissante qui nous permet de rechercher, filtrer, et même parcourir l'HTML renvoyé depuis requests comme si nous parcourions un arbre DOM. Pour commencer, nous devons simplement l'installer avec `pip3 install beautifulsoup4`. Nous allons également installer html5lib: `pip install html5lib`.
+Beautiful Soup est l'outil privilégié pour le Webscraping avec Python. En fait, c'est l'outil privilégié pour le Webscraping en général. C'est une bibliothèque très puissante qui nous permet de rechercher, filtrer, et même parcourir l'HTML renvoyé depuis requests comme si nous parcourions un arbre DOM. Pour commencer, nous devons simplement l'installer avec `pip3 install beautifulsoup4`. Nous allons également installer html5lib: `pip install html5lib`. Deplus, les regex, sont des motifs de recherche utilisés pour trouver des correspondances dans les chaînes de caractères. Elles permettent de spécifier des modèles de texte à rechercher, tels que des caractères spécifiques, des classes de caractères, des quantificateurs pour le nombre d'occurrences, des métacaractères pour des correspondances spéciales, etc. Pour installer cette librairie nous allons executer `pip install regex`.
+
 
 ### 5. Examiner le contenu extrait
 
-Revenons maintenant et jetons un coup d'œil sur notre page. Notre objectif est de récupérer la mention de droits d'auteur de la page et de la faire apparaître dans la console.
+Pour cette exemple, nous allons prendre une nouvelle page `https://en.wikipedia.org/wiki/Cars_(film)`. Notre objectif est de récupérer la date de paruption lié à ce film.
 
 Si nous examinons l'HTML du site, nous pouvons voir que tout le contenu est à l'intérieur de ces balises <center>, et la toute dernière balise <font> contient notre mention de droits d'auteur. Utilisons donc Beautiful Soup pour y arriver :
 
@@ -90,18 +91,21 @@ Si nous examinons l'HTML du site, nous pouvons voir que tout le contenu est à l
 `from bs4 import BeautifulSoup`
 > sauvegardons maintenant la réponse de notre requête
 
-`page = requests.get('https://api.github.com')`
+`page = requests.get('https://en.wikipedia.org/wiki/Cars_(film)')`
 > maintenant la magie
 
 `soup = BeautifulSoup(page.content, 'html5lib')`
-> maintenant si nous examinons le code html, nous verrons notre html plus clairement
+> maintenant notre code html, cherchons la date
 
-`soup.find_all('font')`
-> [<font class="footer-links" size="-1"><a href="https://policies.warnerbros.com/...
-> Ça a l'air familier ! Recherchez le dernier seulement.
+`to_regex = soup.find(class_="plainlist film-date")`
+> <div class="plainlist film-date">
+<ul><li>May 26, 2006<span style="display:none"> (<span class="bday dtstart published updated itvstart">2006-05-26</span>)</span> (<a class="mw-redirect" href="/wiki/Lowe%27s_Motor_Speedway" title="Lowe's Motor Speedway">Lowe's Motor Speedway</a>)</li>
+<li>June 9, 2006<span style="display:none"> (<span class="bday dtstart published updated itvstart">2006-06-09</span>)</span> (United States)</li></ul>
+</div>
+> une fois l'étaut resserré contenant l'information, nous allons appliquer une regex de base
 
-`soup.find_all('font')[-1]`
-> <font size="-1">SPACE JAM, characters, names, and all related<br/>indicia...
+`re.findall(r'(\d{4}-\d{2}-\d{2})', to_regex)`
+> '2006-05-26', '2006-06-09'
 
 Comme vous pouvez le voir, Beautiful Soup nous offre des méthodes que nous pouvons utiliser pour rechercher dans l'HTML. Il existe de nombreuses méthodes très utiles, telles que find_all() que nous avons utilisée ci-dessus pour renvoyer une liste de résultats, find() qui renverra le premier correspondant, find_next(), find_parent(), la liste continue. Lorsque nous appelons ces méthodes, le premier argument que nous passons est le nom de la balise HTML de l'élément que nous recherchons. Donc dans notre cas, nous cherchions toutes les balises <font> correspondantes (assez obsolètes, oui). Comme find_all() est la méthode la plus populaire, Beautiful Soup nous a donné un raccourci pour y accéder.
 
@@ -124,20 +128,9 @@ En plus du nom de la balise, nous pouvons également passer une classe, un ident
 
 > renvoie p class="aside content" id="1"
 
-Bien sûr, extraire toute la balise ne sera pas très utile lorsque nous recherchons simplement le texte à l'intérieur. Dans notre exemple précédent, nous avons les balises <font> d'encadrement, et cette balise <br/> embêtante en plein milieu. Malheureusement, cette balise <br/> posera un petit problème, mais simple à résoudre. Nous vérifions à la fois le contenu et les enfants d'une balise en appelant .contents dessus. Revenons donc à Space Jam :
-
 `soup('font')[-1]`
 
 > cela nous donne la dernière balise <font> sur la page avec notre syntaxe abrégée
-
-`soup('font')[-1].contents`
-
->['SPACE JAM, characters, names, and all related', "br/", 'indicia...'
-> Faisons un peu de mise en forme pour l'afficher joliment
-
-`print(f"{soup('font')[-1].contents[0]} {soup('font')[-1].contents[2]}")`
-
-> SPACE JAM, characters, names, and all related indicia are trademarks of Warner Bros. © 1996
 
 Maintenant que nous sommes parfaitement à l'aise avec l'extraction de contenu à partir de n'importe quel site Web, passons à l'action. Aujourd'hui, nous allons faire du scraping sur le site d'actualités pour les développeurs dev.to.
 
