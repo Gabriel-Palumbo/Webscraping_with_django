@@ -98,14 +98,16 @@ Si nous examinons l'HTML du site, nous pouvons voir que tout le contenu est à l
 > maintenant notre code html, cherchons la date
 
 `to_regex = soup.find(class_="plainlist film-date")`
-> <div class="plainlist film-date">
-<ul><li>May 26, 2006<span style="display:none"> (<span class="bday dtstart published updated itvstart">2006-05-26</span>)</span> (<a class="mw-redirect" href="/wiki/Lowe%27s_Motor_Speedway" title="Lowe's Motor Speedway">Lowe's Motor Speedway</a>)</li>
-<li>June 9, 2006<span style="display:none"> (<span class="bday dtstart published updated itvstart">2006-06-09</span>)</span> (United States)</li></ul>
-</div>
+
+    <div class="plainlist film-date">
+    <ul><li>May 26, 2006<span style="display:none"> (<span class="bday dtstart published updated itvstart">2006-05-26</span>)</span> (<a class="mw-redirect" href="/wiki/Lowe%27s_Motor_Speedway" title="Lowe's Motor Speedway">Lowe's Motor Speedway</a>)</li>
+    <li>June 9, 2006<span style="display:none"> (<span class="bday dtstart published updated itvstart">2006-06-09</span>)</span> (United States)</li></ul>
+    </div>"
+
 > une fois l'étaut resserré contenant l'information, nous allons appliquer une regex de base
 
 `re.findall(r'(\d{4}-\d{2}-\d{2})', to_regex)`
-> '2006-05-26', '2006-06-09'
+> ['2006-05-26', '2006-06-09']
 
 Comme vous pouvez le voir, Beautiful Soup nous offre des méthodes que nous pouvons utiliser pour rechercher dans l'HTML. Il existe de nombreuses méthodes très utiles, telles que find_all() que nous avons utilisée ci-dessus pour renvoyer une liste de résultats, find() qui renverra le premier correspondant, find_next(), find_parent(), la liste continue. Lorsque nous appelons ces méthodes, le premier argument que nous passons est le nom de la balise HTML de l'élément que nous recherchons. Donc dans notre cas, nous cherchions toutes les balises <font> correspondantes (assez obsolètes, oui). Comme find_all() est la méthode la plus populaire, Beautiful Soup nous a donné un raccourci pour y accéder.
 
