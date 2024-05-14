@@ -36,18 +36,18 @@ python
 ### Tout d'abord, importons la bibliothèque
 `import requests`
 ### Commençons par quelque chose de simple
-`requests.get('https://spacejam.com/1996')`
+`requests.get('https://api.github.com')`
 > <Response [200]>
 
 Une autre façon d'obtenir le code de réponse est d'ajouter .status_code à la fin de notre requête get. Mais que faire si nous voulons récupérer des données ? Utilisons l'API de test préférée de tout le monde, JSON Placeholder. Nous allons accéder à l'endpoint pour recevoir le premier Todo.
 
-`requests.get('https://jsonplaceholder.typicode.com/todos/1').status_code`
+`requests.get('https://api.github.com').status_code`
 > 200
 ### Examinons de plus près les données de la réponse
-`requests.get('https://jsonplaceholder.typicode.com/todos/1').text`
+`requests.get('https://api.github.com').text`
 > '{\n  "userId": 1,\n  "id": 1,\n  "title": "delectus aut autem",\n  "completed": false\n}'
 ### Ça n'a pas l'air tout à fait correct. Ce serait bien d'obtenir du JSON, retourné plutôt qu'une chaîne de caractères
-`requests.get('https://jsonplaceholder.typicode.com/todos/1').json()`
+`requests.get('https://api.github.com').json()`
 > {'userId': 1, 'id': 1, 'title': 'delectus aut autem', 'completed': False}
 
 Magnifique ! Nous pouvons maintenant accéder à une API, et avoir nos données retournées dans un format agréable et facile à utiliser ! Nous pouvons même continuer à enchainer cette requête (comme le permet Python) et essayer d'obtenir des valeurs plus spécifiques !
@@ -67,9 +67,9 @@ Vous construisez une application qui a besoin de certaines données d'un site We
 
 Voici le Webscraping, une manière de, comme son nom l'indique, fouiller un site Web et extraire uniquement les informations que nous voulons. En y pensant, revenons à une requête précédente que nous avons effectuée et regardons les données qui sont renvoyées.
 
-`requests.get('https://spacejam.com/1996').text`
+`requests.get('https://api.github.com').text`
 
-> '<html>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n<!-- Copyright 1996 Warner Bros. Online -->\r\n...'
+> A cela, votre programme renverra l'entièreté de la page html du site
 
 Regardez ça ! Tout de suite, nous pouvons dire que nous regardons le document HTML compilé pour spacejam.com ! Ça n'a pas l'air très bien, n'est-ce pas. Et la seule façon dont nous avons accès est dans une seule chaîne de caractères géante. Comme disent tous les infopublicités, "Il doit y avoir une meilleure façon !". Entrez...
 
@@ -121,7 +121,8 @@ En plus du nom de la balise, nous pouvons également passer une classe, un ident
 > si vous voulez rechercher par sélecteurs CSS, utile pour sélectionner plusieurs classes
 
 `css_soup.select("p.content.aside#1")`
-> renvoie <p class="aside content" id="1">
+
+> renvoie p class="aside content" id="1"
 
 Bien sûr, extraire toute la balise ne sera pas très utile lorsque nous recherchons simplement le texte à l'intérieur. Dans notre exemple précédent, nous avons les balises <font> d'encadrement, et cette balise <br/> embêtante en plein milieu. Malheureusement, cette balise <br/> posera un petit problème, mais simple à résoudre. Nous vérifions à la fois le contenu et les enfants d'une balise en appelant .contents dessus. Revenons donc à Space Jam :
 
@@ -131,7 +132,7 @@ Bien sûr, extraire toute la balise ne sera pas très utile lorsque nous recherc
 
 `soup('font')[-1].contents`
 
->['SPACE JAM, characters, names, and all related', <br/>, 'indicia...'
+>['SPACE JAM, characters, names, and all related', "br/", 'indicia...'
 > Faisons un peu de mise en forme pour l'afficher joliment
 
 `print(f"{soup('font')[-1].contents[0]} {soup('font')[-1].contents[2]}")`
