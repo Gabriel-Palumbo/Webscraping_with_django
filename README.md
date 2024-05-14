@@ -4,8 +4,6 @@
 
 - Configuration d'un nouveau projet Django
 - Introduction à la bibliothèque requests de Python
-- Utilisation de l'API OpenWeatherMap
-- Affichage des données météorologiques
 - Introduction au Webscraping
 - Utilisation de Beautiful Soup
 - Exploration du contenu extrait
