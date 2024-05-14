@@ -45,10 +45,12 @@ Une autre façon d'obtenir le code de réponse est d'ajouter .status_code à la 
 > 200
 ### Examinons de plus près les données de la réponse
 `requests.get('https://api.github.com').text`
-> '{\n  "userId": 1,\n  "id": 1,\n  "title": "delectus aut autem",\n  "completed": false\n}'
+> '{'current_user_url': 'https://api.github.com/user', 'current_user_authorizations_html_url': 'https://github.com/settings/connections/applications{/client_id}',...'
 ### Ça n'a pas l'air tout à fait correct. Ce serait bien d'obtenir du JSON, retourné plutôt qu'une chaîne de caractères
 `requests.get('https://api.github.com').json()`
-> {'userId': 1, 'id': 1, 'title': 'delectus aut autem', 'completed': False}
+> {
+  "current_user_url": "https://api.github.com/user",
+  "current_user_authorizations_html_url": "https://github.com/settings/connections/applications{/client_id}",...
 
 Magnifique ! Nous pouvons maintenant accéder à une API, et avoir nos données retournées dans un format agréable et facile à utiliser ! Nous pouvons même continuer à enchainer cette requête (comme le permet Python) et essayer d'obtenir des valeurs plus spécifiques !
 Exercices sur la librairie requests de Django
@@ -71,17 +73,15 @@ Voici le Webscraping, une manière de, comme son nom l'indique, fouiller un site
 
 > A cela, votre programme renverra l'entièreté de la page html du site
 
-Regardez ça ! Tout de suite, nous pouvons dire que nous regardons le document HTML compilé pour spacejam.com ! Ça n'a pas l'air très bien, n'est-ce pas. Et la seule façon dont nous avons accès est dans une seule chaîne de caractères géante. Comme disent tous les infopublicités, "Il doit y avoir une meilleure façon !". Entrez...
+Là seule façon dont nous avons accès est dans une seule chaîne de caractères géante.
 
 ### 4. Beautiful Soup
 
-Beautiful Soup est l'outil privilégié pour le Webscraping avec Python. En fait, c'est l'outil privilégié pour le Webscraping en général. C'est une bibliothèque très puissante qui nous permet de rechercher, filtrer, et même parcourir l'HTML renvoyé depuis requests comme si nous parcourions un arbre DOM. Pour commencer, nous devons simplement l'installer avec pip3 install beautifulsoup4 (Oui, nous voulons la version 4. Si vous installez simplement BeautifulSoup, c'est une version plus ancienne). Nous allons également installer html5lib comme notre parseur HTML du jour.
+Beautiful Soup est l'outil privilégié pour le Webscraping avec Python. En fait, c'est l'outil privilégié pour le Webscraping en général. C'est une bibliothèque très puissante qui nous permet de rechercher, filtrer, et même parcourir l'HTML renvoyé depuis requests comme si nous parcourions un arbre DOM. Pour commencer, nous devons simplement l'installer avec `pip3 install beautifulsoup4`. Nous allons également installer html5lib: `pip install html5lib`.
 
 ### 5. Examiner le contenu extrait
 
-Revenons maintenant et jetons un coup d'œil à cette page Space Jam. Notre objectif est de récupérer la mention de droits d'auteur de la page et de la faire apparaître dans la console.
-
-<Captures d'écran, j'en suis sûr>
+Revenons maintenant et jetons un coup d'œil sur notre page. Notre objectif est de récupérer la mention de droits d'auteur de la page et de la faire apparaître dans la console.
 
 Si nous examinons l'HTML du site, nous pouvons voir que tout le contenu est à l'intérieur de ces balises <center>, et la toute dernière balise <font> contient notre mention de droits d'auteur. Utilisons donc Beautiful Soup pour y arriver :
 
@@ -90,7 +90,7 @@ Si nous examinons l'HTML du site, nous pouvons voir que tout le contenu est à l
 `from bs4 import BeautifulSoup`
 > sauvegardons maintenant la réponse de notre requête
 
-`page = requests.get('https://spacejam.com/1996')`
+`page = requests.get('https://api.github.com')`
 > maintenant la magie
 
 `soup = BeautifulSoup(page.content, 'html5lib')`
