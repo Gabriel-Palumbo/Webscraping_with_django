@@ -1,33 +1,14 @@
-# request_django
+# Librairie request
 
 ## Plan d'Action
 
-- Configuration d'un nouveau projet Django
 - Introduction à la bibliothèque requests de Python
 - Introduction au Webscraping
 - Utilisation de Beautiful Soup
 - Exploration du contenu extrait
 - Affichage des actualités
 
-### Configuration d'un nouveau projet Django
-
-Commençons par créer une nouvelle application Django pour ce projet. Depuis le terminal, nous pouvons le faire en utilisant l'une des commandes suivantes :
-
-
-`django-admin startproject homepage`
-
-ou
-
-`python3 -m django startproject homepage`
-
-Cela créera notre projet intitulé 'homepage'. Ensuite, accédez au dossier homepage et créez notre application main_app :
-
-bash
-
-`python manage.py startapp main_app`
-
-Maintenant, lançons notre serveur et accédons à localhost:8000 pour nous assurer que tout fonctionne !
-###2. Introduction à la bibliothèque requests de Python
+### 1. Introduction à la bibliothèque requests de Python
 
 Python est livré avec une bibliothèque fantastique appelée 'requests' que nous pouvons utiliser pour envoyer des requêtes ! Démarrons un shell Python avec python3 manage.py shell pour voir ce qu'elle fait !
 
@@ -53,15 +34,14 @@ Une autre façon d'obtenir le code de réponse est d'ajouter .status_code à la 
   "current_user_authorizations_html_url": "https://github.com/settings/connections/applications{/client_id}",...
 
 Magnifique ! Nous pouvons maintenant accéder à une API, et avoir nos données retournées dans un format agréable et facile à utiliser ! Nous pouvons même continuer à enchainer cette requête (comme le permet Python) et essayer d'obtenir des valeurs plus spécifiques !
-Exercices sur la librairie requests de Django
+Exercices sur la librairie requests
 
 ### Exercice 1
 
-À l'aide de la librairie requests, créez une vue Django qui envoie une requête GET à une API publique de votre choix (par exemple, l'API JSON Placeholder) et affiche le code de statut de la réponse dans le navigateur.
+À l'aide de la librairie requests, envoyez une requête GET à une API publique de votre choix (par exemple, l'API JSON Placeholder) et affiche le code de statut de la réponse dans le navigateur.
 Modifiez la vue précédente pour récupérer également les données JSON de la réponse et affichez-les dans le navigateur.
-Créez une nouvelle vue Django qui envoie une requête GET à une API tierce de votre choix (par exemple, OpenWeatherMap) et affiche les données de réponse dans le navigateur.
 
-### 3. Introduction au Webscraping
+### 2. Introduction au Webscraping
 
 Le Webscraping est quelque chose qui est devenu assez populaire dans la communauté des développeurs. Permettez-moi de vous décrire une image :
 
@@ -75,12 +55,12 @@ Voici le Webscraping, une manière de, comme son nom l'indique, fouiller un site
 
 Là seule façon dont nous avons accès est dans une seule chaîne de caractères géante.
 
-### 4. Beautiful Soup et Regex
+### 3. Beautiful Soup et Regex
 
 Beautiful Soup est l'outil privilégié pour le Webscraping avec Python. En fait, c'est l'outil privilégié pour le Webscraping en général. C'est une bibliothèque très puissante qui nous permet de rechercher, filtrer, et même parcourir l'HTML renvoyé depuis requests comme si nous parcourions un arbre DOM. Pour commencer, nous devons simplement l'installer avec `pip3 install beautifulsoup4`. Nous allons également installer html5lib: `pip install html5lib`. Deplus, les regex, sont des motifs de recherche utilisés pour trouver des correspondances dans les chaînes de caractères. Elles permettent de spécifier des modèles de texte à rechercher, tels que des caractères spécifiques, des classes de caractères, des quantificateurs pour le nombre d'occurrences, des métacaractères pour des correspondances spéciales, etc. Pour installer cette librairie nous allons executer `pip install regex`.
 
 
-### 5. Examiner le contenu extrait
+### 4. Examiner le contenu extrait
 
 Pour cette exemple, nous allons prendre une nouvelle page `https://en.wikipedia.org/wiki/Cars_(film)`. Notre objectif est de récupérer la date de paruption lié à ce film.
 
@@ -136,18 +116,18 @@ En plus du nom de la balise, nous pouvons également passer une classe, un ident
 
 Maintenant que nous sommes parfaitement à l'aise avec l'extraction de contenu à partir de n'importe quel site Web, passons à l'action. Aujourd'hui, nous allons faire du scraping sur le site d'actualités pour les développeurs dev.to.
 
-### 6. Exercice 2
+### 5. Exercice 2
 
 > Partie 1
 
-    Utilisez Beautiful Soup pour extraire le titre et le lien de trois articles différents sur la page d'accueil de dev.to. Affichez ces informations dans la console de votre application Django.
+    Utilisez Beautiful Soup pour extraire le titre et le lien de trois articles différents sur la page d'accueil de dev.to.
 > Partie 2
 
-    Écrivez une fonction Django qui utilise Beautiful Soup pour extraire le contenu textuel de tous les paragraphes (<p>) d'un article spécifique sur dev.to. Testez cette fonction en passant l'URL d'un article dev.to comme argument.
+    Écrivez une fonction qui utilise Beautiful Soup pour extraire le contenu textuel de tous les paragraphes (<p>) d'un article spécifique sur dev.to. Testez cette fonction en passant l'URL d'un article dev.to comme argument.
 > Partie 3
 
-    Créez une vue Django qui, lorsqu'elle est appelée, extrait les cinq derniers articles publiés sur dev.to, affiche le titre et le lien de chacun dans une page HTML.
+    Créez une fonction qui extrait les cinq derniers articles publiés sur dev.to, affiche le titre et le lien de chacun dans une page HTML.
 
 Conclusion
 
-Dans cette présentation, nous avons exploré comment consommer des API tierces et réaliser du Webscraping avec Django. En utilisant la bibliothèque requests de Python, nous avons appris à envoyer des requêtes HTTP, à recevoir des réponses et à manipuler les données renvoyées. Ensuite, en utilisant Beautiful Soup, nous avons découvert comment extraire des données spécifiques à partir de pages Web. Ces compétences sont extrêmement précieuses pour enrichir vos applications Django avec des données provenant de sources externes et pour automatiser la collecte d'informations à partir du Web. Amusez-vous à explorer davantage ces concepts et à les intégrer dans vos projets !
+Dans cette présentation, nous avons exploré comment consommer des API tierces et réaliser du Webscraping. En utilisant la bibliothèque requests de Python, nous avons appris à envoyer des requêtes HTTP, à recevoir des réponses et à manipuler les données renvoyées. Ensuite, en utilisant Beautiful Soup, nous avons découvert comment extraire des données spécifiques à partir de pages Web. Ces compétences sont extrêmement précieuses pour enrichir vos applications Django avec des données provenant de sources externes et pour automatiser la collecte d'informations à partir du Web. Amusez-vous à explorer davantage ces concepts et à les intégrer dans vos projets !
